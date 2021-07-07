@@ -3,6 +3,8 @@ const fs = require("fs");
 const app = express();
 app.listen(3000);
 
+
+app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded());
 let post = JSON.parse(fs.readFileSync("./data/post.json"));
@@ -17,10 +19,14 @@ app.get("/post", (req, res)=>{
 
 ///.....................................Post Method...........................
 app.post("/post", (req, res) =>{
+    if(!req.body.authorname){
+        res.status(400);
+        res.send({error: "Username Required"})
+    }
     let user ={
         id: post.length + 1,
-        username: req.body.username,
-        password: req.body.password
+        authorname: req.body.authorname,
+        content: req.body.content
     }
     post.push(user);
     res.send(post);
@@ -31,8 +37,8 @@ app.post("/post", (req, res) =>{
 
 app.put("/post/:id", (req, res)=>{
     let id = req.params.id;
-    let userName = req.body.username;
-    let pass = req.body.password
+    let userName = req.body.authorname;
+    let pass = req.body.content
     let index = -1;
     for (let user of post){
         if (user.id === parseInt(id)){
@@ -41,8 +47,8 @@ app.put("/post/:id", (req, res)=>{
     }
     if (index >= 0){
         let user = post[index];
-        user.username = userName;
-        user.password = pass;
+        user.authorname = userName;
+        user.content = pass;
         res.send(user)
     }else{
         res.status(404)
@@ -52,8 +58,6 @@ app.put("/post/:id", (req, res)=>{
 
 ///..................................delete method........................
 
-
-//DELETE/post(remove)
 app.delete("/post/:id", (req, res) => {
     let id = req.params.id;
 
@@ -67,7 +71,7 @@ app.delete("/post/:id", (req, res) => {
         let user= post[index];
         post.splice(index, 1)
         res.send(user);
-        // console.log(value)
+        
     } else {
         res.status(404)
         res.send({ error: "Not correct!" })

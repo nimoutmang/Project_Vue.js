@@ -1,18 +1,18 @@
 [
     {
         "id": 1,
-        "athour": "rady",
+        "authorname": "rady",
         "content": "Is good!"
         
     },
     {
         "id": 2,
-        "athour": "ronan",
+        "authorname": "ronan",
         "content": "Is good!"
     },
     {
         "id": 3,
-        "athour": "yous",
-        "content": "Is good!"
+        "authorname": "yous",
+        "content": "well done!"
     }
 ]
