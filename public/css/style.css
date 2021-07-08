@@ -1,0 +1,46 @@
+
+.container{
+    
+    padding: 50px;
+    width: 500px;
+    margin-left: 20%;
+    height: 30%;
+    margin-top: 50px;
+    width: 40%;
+    background:darkslategray;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#logo{
+    margin-left: 40%;
+    width: 100px;
+  
+}
+#button{
+    padding:15px;
+    width: 30%;
+    margin-top: 5%;
+    margin-left: 35%;
+    background: rgb(20, 190, 20);
+    color: white;
+    border: none;
+    border-radius: 10px;
+
+}
+.title{
+    text-align: center;
+    color:rgb(20, 190, 20);
+}
+.input_user{
+    padding: 15px;
+    width: 70%;
+    margin-left: 15%;
+    border-radius: 10px;
+    border-color: rgb(0, 87, 109);
+    
+    
+}
+
+
+
+

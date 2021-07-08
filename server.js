@@ -4,9 +4,11 @@ const app = express();
 app.listen(3000);
 
 
-app.use(express.static("public"));
+
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(express.static("public"));
+
 let post = JSON.parse(fs.readFileSync("./data/post.json"));
 
 
@@ -77,3 +79,16 @@ app.delete("/post/:id", (req, res) => {
         res.send({ error: "Not correct!" })
     }
 });
+
+
+
+app.get("/posts", (req,res)=>{
+    let id = req.query.id;
+    let userId = null;
+    for ( let user of post){
+        if (user.id === parseInt(id)){
+            userId = user.name;
+        }
+    }
+    res.send({name:userId});
+})
