@@ -10,25 +10,25 @@
 
 </head>
 <body>
-    <div class="container">
-        <div class="form-login">
-            <img src="image/logo.png" alt="" id="logo">
-        </div>
-        <div class="title">
-            <h3>Please enter your Name</h3>
-        </div>
-        <div class="body-card">
-            <input type="text" class="input_user" placeholder="Username....." >
-        </div>
-        <div class="btn-login">
-            <button id="button">Login</button>
-        </div>
-        
-    </div>
-    <div class="card-body">
-        
-    </div>
+    <div class="login-box" id="app">
+        <h2>Login</h2>
+        <form>
+          <div class="user-box">
+            <input type="text" v-model="newName" @keyup.enter="addName" name="" required="" id="input_user">
+            <label>Username</label>
+          </div>
+          <a href="#" id="btn-login" v-on:click="addName">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Login
+          </a>
+        </form>
+      </div>
+    
 </body>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
 <script src="js/login.js"></script>
 </html>
