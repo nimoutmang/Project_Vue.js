@@ -83,17 +83,17 @@
                         <!-- Modal body -->
                         <div class="modal-body">
                             <textarea id="" class="form-control" rows="4" placeholder="Write what you want to post" v-model="content"></textarea>
-                            <label for="input-file">
+                            <label for="input-file" @select="onSubmit" >
                                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCyUD0T_jNLBujGPmqS1KDQqnddc4Qf5eNSA&usqp=CAU" alt="picture" id="uploadImage" style="width: 80px; height: 80px;">
                             </label>
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTP-GtfXSgRebgOPnZrjAJFGWuz0NnCq0TG9Q&usqp=CAU" alt="No internet" class="inmodal">
+                            <img :src="preveiw" alt="No" class="inmodal">
                             <input class="d-none" type="file" id="input-file" @change="selectImage" accept="image/*">
                         </div>
                         
                         <!-- Modal footer -->
                         <div class="modal-footer" >
                             <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-                            <button type="button" class="form-control btn btn-warning" data-dismiss="modal" @click='postItem'>POST</button>
+                            <button type="button" class="form-control btn btn-warning" data-dismiss="modal" @click='onSubmit'>POST</button>
                             <button  type="button" class="form-control btn btn-success" data-dismiss="modal" @click='editItem'>UPDATE</button>
     
                         </div>
@@ -107,9 +107,9 @@
                         <div class="card mt-5">
                             <div class="card-body">
                             <header >
-                                <div  id="icon" v-if="anothername == todo.anothername">
-                                    <button class="btn btn-outline-success far fa-edit" data-toggle="modal" data-target="#myModal" @click="toEdit(todo)">Edit</button>
-                                    <button class="btn btn-outline-danger far fa-trash-alt" @click="deleteItem(todo)">Delete</button>
+                                <div  id="icon" v-if="anothername === todo.anothername">
+                                    <button class="btn btn-outline-success far fa-edit" data-toggle="modal" data-target="#myModal" @click="toEdit">Edit</button>
+                                    <button class="btn btn-outline-danger far fa-trash-alt" @click="deleteItem">Delete</button>
                                 </div>
                                 <div class="p">
                                     <img src="https://cdn.mos.cms.futurecdn.net/vChK6pTy3vN3KbYZ7UU7k3.jpg" alt="" style="border-radius: 50%; width: 70px;height:70px; color: rgb(243, 138, 1);"> 
@@ -123,13 +123,14 @@
                             
                             <hr>
                             <p class="card-text" v-text="todo.content"></p>
-                            <img src="https://i.natgeofe.com/n/3861de2a-04e6-45fd-aec8-02e7809f9d4e/02-cat-training-NationalGeographic_1484324.jpg" alt="" style="width: 100%;height: 100%;">
+                            <img src="" v-bind:src="'../images/'+todo.image" style="width: 40rem;" alt="">
+                            <!-- <img v-bind:src="'../images/ ' + todo.image" alt="" style="width: 100%;height: 100%;"> -->
                             <div class="emotion" style="display: flex; margin: 5px;">
-                                <h4>Like: 2</h4>
+                                <h4>Like:2</h4>
                                 <h4 style="margin-left: 75%;">Unlike: 0</h4>
                             </div>
                             <div class="card-footer ">
-                                <button class="btn btn-outline-dark far fa-hand-point-right ">LIKE</button>
+                                <button  @click="likepost" class="btn btn-outline-dark far fa-hand-point-right ">LIKE</button>
                                 <button class="btn btn-outline-dark far fa-hand-point-right " style="float: right;">UMLIKE</button>
                             </div>
                             </div>
