@@ -2,24 +2,18 @@
   "name": "vuejs-c5-project-nimoutmang",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "multer": "^1.4.2",
+    "nodemon": "^2.0.12"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/PNC-WEP/vuejs-c5-project-nimoutmang.git"
-  },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/PNC-WEP/vuejs-c5-project-nimoutmang/issues"
-  },
-  "homepage": "https://github.com/PNC-WEP/vuejs-c5-project-nimoutmang#readme",
-  "dependencies": {
-    "express": "^4.17.1",
-    "nodemon": "^2.0.9"
-  }
+  "license": "ISC"
 }

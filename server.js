@@ -1,94 +1,93 @@
-const express = require("express");
-const fs = require("fs");
+const fs= require('fs');
+const express = require('express');
 const app = express();
-app.listen(3000);
+const multer = require("multer");
+const path = require("path");
 
+const PORT = 3000;
+app.listen(process.env.PORT || PORT, () => console.log("server is running on port: " + PORT))
 
-
-app.use(express.json());
+app.use(express.static('public'));
 app.use(express.urlencoded());
-app.use(express.static("public"));
+app.use(express.json());
 
-let post = JSON.parse(fs.readFileSync("./data/post.json"));
+////...................UploadImage........................................
+const storageImage = multer.diskStorage({
+    destination: './images',
+    filename: (req, file, callback)=>{
+        return callback(null, `${file.fieldname}_${Date.now()}_${path.extname(file.originalname)}`)
+    }
+})
+const upload = multer({
+    storage: storageImage
 
+})
+
+//....................Readfile............................................
+
+let posts = JSON.parse(fs.readFileSync('data/posts.json'));
+console.log(posts.last_Id);
 
 
 ///....................................Get Method...........................
-app.get("/post", (req, res)=>{
-    res.send(post);
-});
-
+app.get('/post', (req, res)=> res.send(posts.postDatas));
 
 ///.....................................Post Method...........................
-app.post("/post", (req, res) =>{
-    if(!req.body.authorname){
-        res.status(400);
-        res.send({error: "Username Required"})
-    }
-    let user ={
-        id: post.length + 1,
-        authorname: req.body.authorname,
-        content: req.body.content
-    }
-    post.push(user);
-    res.send(post);
+app.post('/post', (req, res) => {
+    let anothername = req.body.anothername;
+    let content = req.body.content;
     
+    let today = new Date();
+    let date = today.getDay() + ', ' + today.getMonth() + ', ' + today.getHours() + ':' + today.getMinutes();
+
+    let countId = posts.last_Id +=1;
+
+    let newPost = {
+        "id": countId,
+        "anothername": anothername,
+        "content": content,
+        "date": date
+    };
+
+    posts.postDatas.push(newPost);
+    res.send(posts.postDatas);
+    fs.writeFileSync('data/posts.json', JSON.stringify(posts));
 })
 
 ///............................put method......................................
 
-app.put("/post/:id", (req, res)=>{
-    let id = req.params.id;
-    let userName = req.body.authorname;
-    let pass = req.body.content
+app.put('/post',(req,res)=>{
+    let id = parseInt(req.body.id);
+    let content=req.body.content;
     let index = -1;
-    for (let user of post){
-        if (user.id === parseInt(id)){
-            index = user.id -1;
+    for (let post of posts.postDatas) {
+        if (post.id === id) {
+            index = posts.postDatas.indexOf(post);
         }
     }
-    if (index >= 0){
-        let user = post[index];
-        user.authorname = userName;
-        user.content = pass;
-        res.send(user)
-    }else{
-        res.status(404)
-        res.send({error: "User id not correct!"})
-    }
+    posts.postDatas[index].content = content;
+    res.send(posts.postDatas);
+    fs.writeFileSync("data/posts.json", JSON.stringify(posts));
 })
 
-///..................................delete method........................
 
+///..................................delete method........................
 app.delete("/post/:id", (req, res) => {
     let id = req.params.id;
-
     let index = -1;
-    for (let user of post) {
-        if (user.id === parseInt(id)) {
-            index = user.id - 1;
+    for (let post of posts.postDatas) {
+        if (post.id === parseInt(id)) {
+            index = posts.postDatas.indexOf(post)
         }
     }
-    if (index >= 0) {
-        let user= post[index];
-        post.splice(index, 1)
-        res.send(user);
-        
-    } else {
-        res.status(404)
-        res.send({ error: "Not correct!" })
-    }
-});
+    posts.postDatas.splice(index, 1);
+    res.send(posts.postDatas);
+    fs.writeFileSync("data/posts.json", JSON.stringify(posts));
+})
 
-
-
-app.get("/posts", (req,res)=>{
-    let id = req.query.id;
-    let userId = null;
-    for ( let user of post){
-        if (user.id === parseInt(id)){
-            userId = user.name;
-        }
-    }
-    res.send({name:userId});
+//..........................uplaod......................
+app.post("/post", upload.single("image"), (req,res)=>{
+    res.send({
+        success: "uploaded!"
+    })
 })
