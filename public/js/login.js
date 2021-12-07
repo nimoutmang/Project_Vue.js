@@ -67,7 +67,7 @@ new Vue({
             console.log(item.content);
         },
 
-        editItem(){
+        editItem(item){
             this.isPost = true;
             window.axios.put(this.URL,{"id":this.idToEdit,"content":this.content})
                 .then(response=>{
